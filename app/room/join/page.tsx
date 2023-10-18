@@ -18,7 +18,7 @@ const JoinRoomForm: FC<JoinRoomFormProps> = ({}) => {
 
   const FormData = z.object({
     name: z.string().min(3).max(10),
-    id: z.string().min(12).max(12),
+    id: z.string().min(21).max(21),
   });
 
   type FormType = z.infer<typeof FormData>;
