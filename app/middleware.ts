@@ -14,15 +14,10 @@ export default async function middleware(req: Request) {
   const origin = req.headers.get("origin");
   var referer = req.headers.get("referer");
 
-  if (referer) {
-    referer = referer.match(/^[^?#]+/)![0];
-    console.log(referer);
-  }
-
   if (
     (origin && !allowedOrigins.includes(origin)) ||
     (!origin && !referer) ||
-    (referer && !allowedOrigins.includes(referer))
+    referer
   ) {
     return new NextResponse(null, {
       status: 400,
