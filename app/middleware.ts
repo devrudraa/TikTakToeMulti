@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? [
-        "https://tik-tak-toe-multi.vercel.app/",
-        "https://tik-tak-toe-multi.vercel.app",
-        "https://www.tik-tak-toe-multi.vercel.app",
-        "https://www.tik-tak-toe-multi.vercel.app.app/",
-      ]
-    : ["http://localhost:3000", "http://localhost:3000/"];
+const allowedOrigins = [
+  "https://tik-tak-toe-multi.vercel.app/",
+  "https://tik-tak-toe-multi.vercel.app",
+  "https://www.tik-tak-toe-multi.vercel.app",
+  "https://www.tik-tak-toe-multi.vercel.app.app/",
+
+  "http://localhost:3000",
+  "http://localhost:3000/",
+];
 
 export default async function middleware(req: Request) {
   const origin = req.headers.get("origin");
