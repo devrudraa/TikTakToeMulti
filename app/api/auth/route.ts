@@ -3,6 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const origin = req.headers.get("origin");
   const clientId = req.headers.get("clientId");
+  if (!process.env.API_KEY) {
+    return new NextResponse("Api KEY not found!", {
+      status: 400,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": origin || "*",
+      },
+    });
+  }
   if (!clientId) {
     return new NextResponse("Cannot found ClientId in the head", {
       status: 400,
