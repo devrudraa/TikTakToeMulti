@@ -11,6 +11,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
     "@nextui-org/react": "^2.1.13",
+    "ably": "^1.2.45",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.279.0",
     "nanoid": "^5.0.1",
@@ -18,8 +19,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.47.0",
-    "react-hot-toast": "^2.4.1",
-    "socket.io-client": "^4.7.2"
+    "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
     "@types/node": "latest",
