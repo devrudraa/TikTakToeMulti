@@ -14,7 +14,7 @@ interface PageProps {
 }
 const Page: FC<PageProps> = ({ params }) => {
   const searchParams = useSearchParams();
-  const [name, setName] = useState(searchParams.get("name"));
+  const name = searchParams.get("name");
   const [loading, setLoading] = useState<boolean>(true);
   const [ChannelGlobal, setChannelGlobal] =
     useState<Types.RealtimeChannelCallbacks | null>(null);
@@ -31,7 +31,9 @@ const Page: FC<PageProps> = ({ params }) => {
         method: "GET",
         headers: headers,
       });
-      if (response.status === 500) return;
+      if (response.status === 500) {
+        console.error("Internal Server Error");
+      }
       const { token } = await response.json();
       return token;
     }
