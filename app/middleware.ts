@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? [
-        "https://serv-gamma.vercel.app/",
-        "https://serv-gamma.vercel.app",
-        "http://serv-gamma.vercel.app/",
-        "https://www.serv-gamma.vercel.app/",
+        "https://tik-tak-toe-multi.vercel.app/",
+        "https://tik-tak-toe-multi.vercel.app",
+        "https://www.tik-tak-toe-multi.vercel.app",
+        "https://www.tik-tak-toe-multi.vercel.app.app/",
       ]
     : ["http://localhost:3000", "http://localhost:3000/"];
 
