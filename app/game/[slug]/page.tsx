@@ -21,13 +21,10 @@ const Page: FC<PageProps> = ({ params }) => {
   const [ClientGlobal, setClientGlobal] = useState<Realtime | null>(null);
 
   const { slug } = params;
-  if (!name) {
-    setName("unnamed");
-  }
 
   useEffect(() => {
     const headers = new Headers();
-    headers.append("clientId", name!);
+    headers.append("clientId", name ? name : "unnamed");
 
     async function get_token() {
       const response = await fetch(`/api/auth`, {
