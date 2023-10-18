@@ -42,6 +42,6 @@ export async function GET(req: NextRequest) {
     });
   } catch (err) {
     console.error("The Error IS", err);
-    return new Response("Error", { status: 500 });
+    return new Response(JSON.stringify(err), { status: 500 });
   }
 }
