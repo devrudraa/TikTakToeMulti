@@ -25,7 +25,7 @@ export default function App() {
         <Button as={Link} href="/room/create" color="secondary">
           Create Game
         </Button>
-        <Button as={Link} href="/room/Join">
+        <Button as={Link} href="/room/join">
           Join Game
         </Button>
       </div>
