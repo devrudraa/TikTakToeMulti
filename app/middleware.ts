@@ -16,6 +16,7 @@ export default async function middleware(req: Request) {
 
   if (referer) {
     referer = referer.match(/^[^?#]+/)![0];
+    console.log(referer);
   }
 
   if (
