@@ -168,7 +168,15 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
           <div className="w-full px-8 space-y-8">
             {/* //! Score */}
             <h1 className="font-bold text-5xl">Lessgo 🥳</h1>
-            {/* <div className="font-semibold text-xl">
+            <div className="font-semibold text-xl">
+              Score:
+              <div className="pl-8 ">
+                <p className="text-red-400">You {isOwner ? `(X)` : `(O)`}</p>
+                <p className="text-blue-400">
+                  {opponent_name} {isOwner ? `(O)` : `(X)`}
+                </p>
+              </div>
+              {/* <div className="font-semibold text-xl">
               Score:
               <div className="pl-8 ">
                 <p className="text-red-400">
@@ -178,8 +186,8 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
                   {opponent_name}{" "}
                   {isOwner ? `(O): ${scores.o}` : `(X): ${scores.x}`}
                 </p>
-              </div>
-            </div> */}
+              </div> */}
+            </div>
             <Button onClick={reset} color="primary" className="text-lg">
               Reset Game
             </Button>
