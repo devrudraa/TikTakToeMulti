@@ -28,6 +28,7 @@ const RoomPreChecking: FC<OpponentWaitingProps> = ({
   const [error, setError] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [opponent_name, setOpponent_name] = useState<string | null>(null);
+
   const [isMessageSubscribed, setIsMessageSubscribed] =
     useState<boolean>(false);
   const { setMessage } = useMessage();

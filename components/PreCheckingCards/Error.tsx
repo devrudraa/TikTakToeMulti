@@ -1,3 +1,4 @@
+// import { useUserName } from "@/Context/NameContext";
 import { ErrorCode } from "@/lib/ErrorCode";
 import { Button } from "@nextui-org/react";
 import { ArrowLeft, RotateCw } from "lucide-react";
@@ -9,9 +10,9 @@ interface ErrorPageProps {
   error: number;
   roomId: string;
 }
+
 const ErrorPage: FC<ErrorPageProps> = ({ error, roomId }) => {
   const router = useRouter();
-
   const ErrorCodeComponent = ErrorCode({ roomId });
   const CurrentError = ErrorCodeComponent.find((item) => item.status === error);
 

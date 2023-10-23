@@ -18,8 +18,9 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
   const [isMyTurn, setIsMyTurn] = useState<boolean>(false);
   const { isOwner, setIsOwner } = useIsOwner();
   const [board, setBoard] = useState<string[]>(Array(9).fill(""));
-  const { name, opponent_name } = useUserName();
+  const { name, opponent_name, setOpponent_name } = useUserName();
   const Channel = useChannel();
+  let lastNotificationTime = 0;
 
   useEffect(() => {
     Channel.publish("reset-game", { name: name });
@@ -51,10 +52,12 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
       "leave",
       ({ data }: { data: { name: string } }) => {
         if (data.name === opponent_name) {
+          setOpponent_name(null);
           toast.error(`${data.name} Left the game`);
         }
       }
     );
+
     Channel.presence.subscribe(
       "enter",
       ({ data }: { data: { name: string } }) => {
@@ -76,9 +79,6 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
       if (board[index] || calculateWinner().winner || isBoardFull()) {
         return;
       }
-
-      // setScores({ x: 1, o: 1 });
-
       const newBoard = [...board];
       newBoard[index] = isOwner ? "X" : "O";
 
@@ -89,6 +89,14 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
       //* Changing the current user board for smooth experience
       setBoard(newBoard);
       setIsMyTurn((prev) => !prev);
+    } else {
+      const currentTime = Date.now();
+
+      // Check if it has been at least 5 seconds since the last notification
+      if (currentTime - lastNotificationTime >= 5000) {
+        toast.error("Its not your turn!");
+        lastNotificationTime = currentTime; // Update the last notification time
+      }
     }
   };
 
@@ -191,6 +199,9 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
           <div className="w-full px-8 space-y-8">
             {/* //! Score */}
             <h1 className="font-bold text-5xl">Lessgo 🥳</h1>
+            <span className="font-light text-gray-200">
+              Its {isMyTurn ? "Your" : `${opponent_name}'s`} Turn!
+            </span>
             <div className="font-semibold text-xl">
               Score:
               <div className="pl-8 ">
