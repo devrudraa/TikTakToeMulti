@@ -9,6 +9,10 @@ import { useIsOwner } from "@/Context/GameOwner";
 import { toast } from "react-hot-toast";
 
 interface GameBoardProps {}
+interface ResetGameProps {
+  name: string;
+  buttonClicked?: boolean;
+}
 
 const GameBoard: FC<GameBoardProps> = ({}) => {
   const [isMyTurn, setIsMyTurn] = useState<boolean>(false);
@@ -19,7 +23,6 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
 
   useEffect(() => {
     Channel.publish("reset-game", { name: name });
-    console.log("Game Board is reset");
 
     Channel.subscribe("update-game", ({ data }) => {
       if (data.name !== name) {
@@ -28,8 +31,10 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
       }
     });
 
-    Channel.subscribe("reset-game", ({ data }) => {
-      toast.error(`Game was reset by: ${data.name}`);
+    Channel.subscribe("reset-game", ({ data }: { data: ResetGameProps }) => {
+      if (data.buttonClicked) {
+        toast.error(`Game was reset by: ${data.name}`);
+      }
       setBoard(Array(9).fill(""));
       const shorted_names = [name, opponent_name].sort();
 
@@ -42,9 +47,26 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
       }
     });
 
+    Channel.presence.subscribe(
+      "leave",
+      ({ data }: { data: { name: string } }) => {
+        if (data.name === opponent_name) {
+          toast.error(`${data.name} Left the game`);
+        }
+      }
+    );
+    Channel.presence.subscribe(
+      "enter",
+      ({ data }: { data: { name: string } }) => {
+        toast.success(`${data.name} Joined the game`);
+      }
+    );
+
     return () => {
       Channel.unsubscribe("update-game");
       Channel.unsubscribe("reset-game");
+      Channel.presence.unsubscribe("leave");
+      Channel.presence.unsubscribe("enter");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -134,7 +156,8 @@ const GameBoard: FC<GameBoardProps> = ({}) => {
   }
 
   function reset() {
-    Channel.publish("reset-game", { name: name });
+    const payload: ResetGameProps = { name: name, buttonClicked: true };
+    Channel.publish("reset-game", payload);
   }
 
   return (

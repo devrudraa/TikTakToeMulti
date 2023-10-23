@@ -2,7 +2,7 @@
 import { useChannel } from "@/Context/ClientAbly";
 import { NameContext } from "@/Context/NameContext";
 import { FC, useEffect, useState } from "react";
-import GameBoard from "./GamBoard";
+import GameBoard from "./GameBoard";
 import { useMessage } from "@/Context/MessageContext";
 import { Realtime } from "ably";
 import Waiting from "./PreCheckingCards/Waiting";
