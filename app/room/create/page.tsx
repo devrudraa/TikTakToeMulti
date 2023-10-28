@@ -16,9 +16,11 @@ const CreateRoomForm: FC<CreateRoomFormProps> = ({}) => {
   const [RoomName] = useState<string>(nanoid());
   const [loading, setLoading] = useState<boolean>(false);
   const [writeRoomID, setWriteRoomID] = useState<boolean>(false);
+  const [oldName, setOldName] = useState<string | null>(null);
 
   useEffect(() => {
     setWriteRoomID(true);
+    setOldName(localStorage.getItem("name"));
   }, []);
 
   const FormData = z.object({
@@ -33,12 +35,16 @@ const CreateRoomForm: FC<CreateRoomFormProps> = ({}) => {
     formState: { errors },
   } = useForm<FormType>({
     resolver: zodResolver(FormData),
+    defaultValues: {
+      name: oldName ? oldName : "",
+    },
   });
 
   function FormSubmitted(data: FormType) {
     setLoading(true);
     setIsOwner(true);
     router.replace(`/game/${RoomName}?name=${data.name}`);
+    localStorage.setItem("name", data.name);
   }
 
   return (
@@ -50,6 +56,7 @@ const CreateRoomForm: FC<CreateRoomFormProps> = ({}) => {
           label="Your Name"
           type="text"
           size="sm"
+          placeholder="Your name"
           className="text-black"
         />
         {errors.name ? (

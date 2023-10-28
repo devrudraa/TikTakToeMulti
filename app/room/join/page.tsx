@@ -1,7 +1,7 @@
 "use client";
 import { Button, Input } from "@nextui-org/react";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +15,11 @@ const JoinRoomForm: FC<JoinRoomFormProps> = ({}) => {
   const roomId = searchParams.get("room");
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [oldName, setOldName] = useState<string | null>(null);
+
+  useEffect(() => {
+    setOldName(localStorage.getItem("name"));
+  }, []);
 
   const FormData = z.object({
     name: z.string().min(3).max(10),
@@ -31,6 +36,7 @@ const JoinRoomForm: FC<JoinRoomFormProps> = ({}) => {
     resolver: zodResolver(FormData),
     defaultValues: {
       id: roomId ? roomId : "",
+      name: oldName ? oldName : "",
     },
   });
 
@@ -46,6 +52,7 @@ const JoinRoomForm: FC<JoinRoomFormProps> = ({}) => {
       toast.error("Something went wrong try again");
       return;
     }
+    localStorage.setItem("name", data.name);
     router.replace(`/game/${data.id}?name=${data.name}`);
   }
   return (
@@ -57,6 +64,7 @@ const JoinRoomForm: FC<JoinRoomFormProps> = ({}) => {
           label="Name"
           type="text"
           size="sm"
+          placeholder="Your Name"
           className="text-black"
         />
         {errors.name ? (
