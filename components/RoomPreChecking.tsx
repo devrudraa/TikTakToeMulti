@@ -67,7 +67,7 @@ const RoomPreChecking: FC<OpponentWaitingProps> = ({
             }
           });
 
-          if (presencePage.length >= 2) {
+          if (presencePage.length > 2) {
             setUserError(423);
             return;
           }

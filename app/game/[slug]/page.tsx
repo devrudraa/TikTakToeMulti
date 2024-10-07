@@ -51,6 +51,7 @@ const Page: FC<PageProps> = ({ params }) => {
     });
 
     const Channel = Client.channels.get(slug);
+
     setChannelGlobal(Channel);
     setClientGlobal(Client);
     setLoading(false);
